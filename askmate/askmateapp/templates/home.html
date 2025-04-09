@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskMate - Homepage</title>
+</head>
+<body>
+    <h1>Welcome to AskMate!</h1>
+
+    <!-- Login/Register if the user is not logged in -->
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'post_question' %}">Post a Question</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+
+    <h2>All Questions</h2>
+    <ul>
+        {% for question in questions %}
+            <li>
+                <h3>{{ question.title }}</h3>
+                <p>{{ question.content }}</p>
+                <p>Posted by: {{ question.created_by.username }} at {{ question.created_at }}</p>
+
+                <h4>Answers:</h4>
+                {% for answer in question.answers.all %}
+                    <div>
+                        <p>{{ answer.content }}</p>
+                        <p>Answer by: {{ answer.created_by.username }} at {{ answer.created_at }}</p>
+                        
+                        <!-- Like button for each answer -->
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'like_answer' answer.id %}">Like</a>
+                        {% else %}
+                            <p>You need to be logged in to like answers.</p>
+                        {% endif %}
+                        
+                        <!-- Show like count for all users, logged in or not -->
+                        <span>{{ answer.likes.count }} Likes</span>
+                    </div>
+                {% endfor %}
+
+                <!-- Option to answer the question -->
+                {% if user.is_authenticated %}
+                    <a href="{% url 'answer_question' question.id %}">Answer this Question</a>
+                {% else %}
+                    <p>You need to be logged in to answer questions.</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

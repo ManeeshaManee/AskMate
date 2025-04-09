@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ question.title }}</title>
+</head>
+<body>
+    <h1>{{ question.title }}</h1>
+    <p>{{ question.content }}</p>
+
+    <h3>Answers:</h3>
+    <ul>
+        {% for answer in question.answer_set.all %}
+            <li>{{ answer.content }} - by {{ answer.created_by.username }}</li>
+        {% empty %}
+            <li>No answers yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'answer_question' question.id %}">Answer this question</a>
+</body>
+</html>
