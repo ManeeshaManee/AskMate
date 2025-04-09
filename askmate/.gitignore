@@ -1,1 +1,10 @@
-/Users/maneesharahul/Desktop/codes/AskMate-1/CACHEDIR.TAG
+# Ignore CACHEDIR.TAG file
+CACHEDIR.TAG
+
+# Ignore directories
+askmate/
+bin/
+lib/
+
+# Ignore virtual environment configuration
+pyvenv.cfg
